@@ -1,0 +1,44 @@
+# Ignore all .log files
+*.log
+
+# Ignore a specific file
+my_secret_key.txt
+
+# Ignore all files with the .tmp extension
+*.tmp
+
+# Ignore the entire 'node_modules' directory
+node_modules/
+
+# Ignore the 'build' directory and all its contents
+build/
+
+# Ignore a specific directory named 'temp' anywhere in the repository
+temp/
+
+# Ignore all files in the 'logs' directory, but not the directory itself
+logs/*
+
+# Ignore all files in the 'data' directory and its subdirectories
+data/**
+
+# Ignore all files ending with '~' (often backup files)
+*~
+
+# Ignore files created by text editors or IDEs
+.DS_Store
+.vscode/
+.idea/
+
+# Ignore compiled Python files
+__pycache__/
+*.pyc
+
+# Exception: Don't ignore 'important.log' even if other .log files are ignored
+!important.log
+.env
+text.js
+
+
+# Comments start with a hash symbol
+# This line is a comment and will be ignored by Git
