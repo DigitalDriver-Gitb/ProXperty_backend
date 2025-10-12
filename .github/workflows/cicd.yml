@@ -25,6 +25,6 @@ jobs:
       - name: Pull image from docker hub
         run: docker pull proxperty/proxperty_backend:latest
       - name: Delete old container
-        run: docker rm -f proxperty/proxperty_backend
+        run: docker rm -f proxperty_backend
       - name: Run Docker Container
-        run: docker run -d -p 3500:3500 --name proxperty/proxperty_backend -e MONGO_PASSWORD='${{ secrets.MONGO_PASSWORD }}' proxperty/proxperty_backend
+        run: docker run -d -p 3500:3500 --name proxperty_backend -e MONGO_PASSWORD='${{ secrets.MONGO_PASSWORD }}' proxperty/proxperty_backend
