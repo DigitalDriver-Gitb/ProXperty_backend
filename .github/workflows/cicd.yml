@@ -1,0 +1,30 @@
+name: Deploy ProXperty_backend
+on: 
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Source
+        uses: actions/checkout@v4
+      - name: Login to docker hub
+        run: docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}     
+      - name: Build Docker Image
+        run: docker build -t proxperty/proxperty_backend  . (DockerHub Username/Repository Name . )
+      - name: Publish Image to docker hub
+        run: docker push proxperty/proxperty_backend:latest (DockerHub Username/Repository Name:latest )
+ 
+ 
+  deploy:
+    needs: build
+    runs-on: self-hosted 
+    steps:
+      - name: Pull image from docker hub
+        run: docker pull proxperty/proxperty_backend:latest (DockerHub Username/Repository Name:latest )
+      - name: Delete old container
+        run: docker rm -f proxperty/proxperty_backend (Old Container Name if any/New container Name)
+      - name: Run Docker Container
+        run: docker run -d -p 3500:3500(Configured Port:Configured Port) --name proxperty/proxperty_backend(New Container Name) -e MONGO_PASSWORD='${{ secrets.MONGO_PASSWORD }}' proxperty/proxperty_backend (DockerHub Username/Repository Name)
