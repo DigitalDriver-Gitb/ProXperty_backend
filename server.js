@@ -13,7 +13,8 @@ const app = express();
 import connectDb from "./db/Connect_db.js";
 // CORS configuration
 const corsOptions = {
-    origin: ["http://localhost:5174", "http://localhost:3500","http://localhost:5173","*"],
+    // origin: ["http://localhost:5174", "http://localhost:3500","http://localhost:5173","*"],
+    origin: "*",
     credentials: true,
     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
     allowedHeaders: ["Content-Type", "Authorization"],
