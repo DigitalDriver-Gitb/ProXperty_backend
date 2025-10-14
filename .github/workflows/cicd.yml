@@ -27,4 +27,4 @@ jobs:
       - name: Delete old container
         run: docker rm -f proxperty_backend
       - name: Run Docker Container
-        run: docker run -d -p 3500:3500 --name proxperty_backend -e MONGO_URI='${{ secrets.MONGO_URI }}' proxperty/proxperty_backend
+        run: docker run -d -p 3500:3500 --name proxperty_backend -e MONGO_URI='${{ secrets.MONGO_URI }}' -e JWT_SECRET='${{ secrets.JWT_SECRET }}' proxperty/proxperty_backend
