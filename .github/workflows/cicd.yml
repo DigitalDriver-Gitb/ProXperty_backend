@@ -18,13 +18,34 @@ jobs:
         run: docker push proxperty/proxperty_backend:latest
  
  
+  # deploy:
+  #   needs: build
+  #   runs-on: self-hosted 
+  #   steps:
+  #     - name: Pull image from docker hub
+  #       run: docker pull proxperty/proxperty_backend:latest
+  #     - name: Delete old container
+  #       run: docker rm -f proxperty_backend
+  #     - name: Run Docker Container
+  #       run: docker run -d -p 3500:3500 --name proxperty_backend -e MONGO_URI='${{ secrets.MONGO_URI }}' -e JWT_SECRET='${{ secrets.JWT_SECRET }}' proxperty/proxperty_backend
+
+
   deploy:
-    needs: build
-    runs-on: self-hosted 
-    steps:
-      - name: Pull image from docker hub
-        run: docker pull proxperty/proxperty_backend:latest
-      - name: Delete old container
-        run: docker rm -f proxperty_backend
-      - name: Run Docker Container
-        run: docker run -d -p 3500:3500 --name proxperty_backend -e MONGO_URI='${{ secrets.MONGO_URI }}' -e JWT_SECRET='${{ secrets.JWT_SECRET }}' proxperty/proxperty_backend
+  needs: build
+  runs-on: self-hosted 
+  steps:
+    - name: Pull image from docker hub
+      run: docker pull proxperty/proxperty_backend:latest
+    - name: Delete old container
+      run: docker rm -f proxperty_backend || true
+    - name: Run Docker Container
+      run: docker run -d \
+        -p 3500:3500 \
+        --name proxperty_backend \
+        -e MONGO_URI=${{ secrets.MONGO_URI }} \
+        -e JWT_SECRET=${{ secrets.JWT_SECRET }} \
+        -e AWS_ACCESS_KEY_ID=${{ secrets.AWS_ACCESS_KEY_ID }} \
+        -e AWS_SECRET_ACCESS_KEY=${{ secrets.AWS_SECRET_ACCESS_KEY }} \
+        -e AWS_REGION=${{ secrets.AWS_REGION }} \
+        -e AWS_S3_BUCKET_NAME=${{ secrets.AWS_S3_BUCKET_NAME }} \
+        proxperty/proxperty_backend
