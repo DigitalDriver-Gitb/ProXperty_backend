@@ -2135,7 +2135,7 @@ export const createProject = async (req, res) => {
       luxury,
       spotlight,
       type,
-      galleryImages: Array.isArray(galleryImages) 
+      galleryImages: Array.isArray(galleryImages)
   ? galleryImages.map(img => (typeof img === 'string' ? { url: img } : { url: img.url || '' }))
   : [],
       floorPlanImages: Array.isArray(floorPlanImages) 
