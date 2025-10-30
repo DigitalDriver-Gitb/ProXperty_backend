@@ -67,18 +67,10 @@ app.use((err, req, res, next) => {
 });
 
 const PORT = process.env.PORT || 3500;
-const server = app.listen(PORT, '0.0.0.0', () => {
-    console.log(`Server is running on http://0.0.0.0:${PORT}`);
-    console.log(`Available routes:`);
-    console.log(`- POST   /admin/project`);
-    console.log(`- GET    /admin/project`);
-    console.log(`- GET    /admin/project/:id`);
-    console.log(`- PUT    /admin/project/:id`);
-    console.log(`- DELETE /admin/project/:id`);
-    console.log(`- POST   /upload-image`);
-    console.log(`- GET    /test-register`);
-});
 
+const server = app.listen(PORT, () => {
+  console.log(`✅ Server running on port ${PORT}`);
+});
 // Handle unhandled promise rejections
 process.on('unhandledRejection', (err) => {
     console.error('Unhandled Rejection:', err);
