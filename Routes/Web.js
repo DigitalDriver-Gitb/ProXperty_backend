@@ -6,9 +6,10 @@ import registeredAdminUsersRouter from "./RegisteredAdminUsersRoutes.js";
 import multer from "multer";
 import uploadImageToS3 from "../utilities/documents.js";
 import proxpertyUsersRouter from "./ProxpertyUsersRoutes.js";
-import builderRouter from "../Controller/Admin/Constant/Builder/BuilderRoutes.js";
-import countryRouter from "../Controller/Admin/Constant/Country/CountryRoutes.js";
-import typeRouter from "../Controller/Admin/Constant/Type/TypeRoutes.js";
+import builderRouter from "./BuilderRoutes.js";
+import countryRouter from "./CountryRoutes.js";
+import typeRouter from "./TypeRoutes.js";
+import locationRoutes from "./LocationRoutes.js";
 // Add JSON body parser middleware
 // router.use(express.json());
 
@@ -27,6 +28,7 @@ router.use("/admin/proxperty_users", proxpertyUsersRouter) // to get the proxper
 router.use("/admin/builder", builderRouter) // to get the builder registerd users
 router.use("/admin/country", countryRouter) // to get the country registerd users
 router.use("/admin/type", typeRouter) // to get the type registerd users    // Add new route for image upload
+router.use("/admin/location", locationRoutes);
 router.post("/upload-image", upload.single('image'), uploadImageToS3);
 
 // Test endpoint

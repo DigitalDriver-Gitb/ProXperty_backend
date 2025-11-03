@@ -5,7 +5,7 @@ import {
   getType,
   updateType,
   deleteType,
-} from "./AddType.js";
+} from "../Controller/Admin/Constant/AddTypeController.js";
 
 const TypeRouter = express.Router();
 
