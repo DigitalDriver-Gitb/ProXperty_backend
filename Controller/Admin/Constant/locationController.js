@@ -1,7 +1,7 @@
-import Country from "../models/Country.js";
-import State from "../models/State.js";
-import City from "../models/City.js";
-import Sublocation from "../models/Sublocation.js";
+import Country from "../../../models/Admin/Constant/Country.js";
+import State from "../../../models/Admin/Constant/State.js";
+import City from "../../../models/Admin/Constant/City.js";
+import Sublocation from "../../../models/Admin/Constant/Sublocation.js";
 
 // ---------- COUNTRY ----------
 export const getCountries = async (req, res) => {

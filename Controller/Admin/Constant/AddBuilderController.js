@@ -1,4 +1,4 @@
-import Builder from "../../../../models/Admin/Constant/AddBuilder.js";
+import Builder from "../../../models/Admin/Constant/AddBuilder.js";
 
 // Create builder
 // export const createBuilder = async (req, res) => {

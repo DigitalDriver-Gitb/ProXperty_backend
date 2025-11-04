@@ -1,5 +1,5 @@
 
-import Country from "../../../../models/Admin/Constant/AddCountry.js";
+import Country from "../../../models/Admin/Constant/AddCountry.js";
 
 // ✅ Create Country
 export const createCountry = async (req, res) => {

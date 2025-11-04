@@ -1,4 +1,4 @@
-import Type from "../../../../models/Admin/Constant/Addtype.js";
+import Type from "../../../models/Admin/Constant/Addtype.js";
 
 // ✅ Create Type
 export const createType = async (req, res) => {
