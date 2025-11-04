@@ -2163,7 +2163,7 @@ res.status(201).json({
 export const getProjects = async (req, res) => {
   try {
     const projects = await Project.find();
-    res.json(projects);
+    res.status(200).json({ success: true, data: projects });
   } catch (error) {
     res.status(500).json({ message: "Server error", error: error.message });
   }
@@ -2174,7 +2174,7 @@ export const getProjectById = async (req, res) => {
   try {
     const project = await Project.findById(req.params.id);
     if (!project) return res.status(404).json({ message: "Project not found" });
-    res.json(project);
+    res.status(200).json({ success: true, data: project });
   } catch (error) {
     res.status(500).json({ message: "Server error", error: error.message });
   }
@@ -2200,7 +2200,7 @@ export const updateProject = async (req, res) => {
     );
 
     if (!updated) return res.status(404).json({ message: "Project not found" });
-    res.json(updated);
+    res.status(200).json({ success: true, data: updated });
   } catch (error) {
     res.status(500).json({ message: "Server error", error: error.message });
   }
@@ -2211,7 +2211,7 @@ export const deleteProject = async (req, res) => {
   try {
     const deleted = await Project.findByIdAndDelete(req.params.id);
     if (!deleted) return res.status(404).json({ message: "Project not found" });
-    res.json({ message: "Project deleted successfully" });
+    res.status(200).json({ success: true, message: "Project deleted successfully" });
   } catch (error) {
     res.status(500).json({ message: "Server error", error: error.message });
   }
