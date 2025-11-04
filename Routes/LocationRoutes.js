@@ -6,6 +6,8 @@ import {
   addState,
   getCities,
   addCity,
+  getLocations,
+  addLocation,
   getSublocations,
   addSublocation,
 } from "../Controller/Admin/Constant/locationController.js";
@@ -23,6 +25,10 @@ router.post("/states", addState);
 // City
 router.get("/cities", getCities);
 router.post("/cities", addCity);
+
+// Location
+router.get("/locations", getLocations);
+router.post("/locations", addLocation);
 
 // Sublocation
 router.get("/sublocations", getSublocations);
