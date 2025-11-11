@@ -15,6 +15,14 @@ const builderSchema = new mongoose.Schema(
       type: String,
       trim: true,
     },
+    country: {
+      type: String,
+      trim: true,
+    },
+    state: {
+      type: String,
+      trim: true,
+    },
     cities: {
       type: [String],
       default: [],

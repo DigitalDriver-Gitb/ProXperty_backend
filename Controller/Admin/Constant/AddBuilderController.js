@@ -21,13 +21,15 @@ import Builder from "../../../models/Admin/Constant/AddBuilder.js";
 
 export const createBuilder = async (req, res) => {
   try {
-    const { name, description, builder_logo, cities } = req.body;
+    const { name, description, builder_logo, country,state ,cities } = req.body;
 
     const builder = new Builder({
       name,
       description,
       builder_logo,
-      cities, // 👈 include this
+      country,
+      state,
+      cities, 
     });
 
     const savedBuilder = await builder.save();
@@ -83,14 +85,14 @@ export const updateBuilder = async (req, res) => {
       return res.status(404).json({ message: "Builder not found" });
     }
 
-    const { name, description, builder_logo, cities } = req.body;
+    const { name, description, builder_logo, country,state ,cities } = req.body;
 
     if (name) builder.name = name;
     if (description) builder.description = description;
     if (builder_logo) builder.builder_logo = builder_logo;
-    if (cities) builder.cities = Array.isArray(cities)
-      ? cities
-      : cities.split(",").map((c) => c.trim());
+    if (country) builder.country = country;
+    if (state) builder.state = state;
+    if (cities) builder.cities = cities;
 
     const updatedBuilder = await builder.save();
     res.json(updatedBuilder);
