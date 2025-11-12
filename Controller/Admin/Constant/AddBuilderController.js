@@ -21,15 +21,23 @@ import Builder from "../../../models/Admin/Constant/AddBuilder.js";
 
 export const createBuilder = async (req, res) => {
   try {
-    const { name, description, builder_logo, country,state ,cities } = req.body;
+    const { name, description, builder_logo, country, states, cities } = req.body;
+
+    // Validate that states is an array with at least one item
+    if (!Array.isArray(states) || states.length === 0) {
+      return res.status(400).json({
+        success: false,
+        message: 'At least one state is required',
+      });
+    }
 
     const builder = new Builder({
       name,
       description,
       builder_logo,
       country,
-      state,
-      cities, 
+      states: states,
+      cities: Array.isArray(cities) ? cities : [],
     });
 
     const savedBuilder = await builder.save();
@@ -85,14 +93,20 @@ export const updateBuilder = async (req, res) => {
       return res.status(404).json({ message: "Builder not found" });
     }
 
-    const { name, description, builder_logo, country,state ,cities } = req.body;
+    const { name, description, builder_logo, country, states, cities } = req.body;
 
     if (name) builder.name = name;
     if (description) builder.description = description;
     if (builder_logo) builder.builder_logo = builder_logo;
     if (country) builder.country = country;
-    if (state) builder.state = state;
-    if (cities) builder.cities = cities;
+    if (states) {
+      // Ensure states is an array
+      builder.states = Array.isArray(states) ? states : [states];
+    }
+    if (cities) {
+      // Ensure cities is an array
+      builder.cities = Array.isArray(cities) ? cities : [cities];
+    }
 
     const updatedBuilder = await builder.save();
     res.json(updatedBuilder);
