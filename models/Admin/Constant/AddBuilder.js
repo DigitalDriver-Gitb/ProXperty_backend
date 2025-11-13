@@ -22,20 +22,12 @@ const builderSchema = new mongoose.Schema(
       required: true,
       trim: true,
     },
-    states: {
-      type: [String],
-      required: true,
-      default: [],
-      validate: {
-        validator: function(v) {
-          return v.length > 0;
-        },
-        message: 'At least one state is required'
-      }
+    state: {
+      type: String,
+      trim: true,
     },
     cities: {
       type: [String],
-      required: true,
       default: [],
     },
   },
