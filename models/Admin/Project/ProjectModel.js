@@ -8,7 +8,6 @@ const projectSchema = new mongoose.Schema(
     city: { type: String,required:true },
     location: { type: String, required: true },
     sublocation: { type: String, required: true },
-    projectAddress: { type: String,required:true },
     project_discription: { type: String,required:true },
     AboutDeveloper: { type: String,required:true },
     builderName: { type: String,required:true },
