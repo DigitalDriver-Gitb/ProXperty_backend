@@ -1,5 +1,23 @@
 import mongoose from "mongoose";
 
+const bhk_Schema = new mongoose.Schema({
+  bhk_type: {
+    type: String, //1/2/3bhk
+  },
+  price: {
+    type: String,
+  },
+  bhk_Area: {
+    type: String,
+  },
+});
+
+const highlight_Schema = new mongoose.Schema({
+  highlight_Point: {
+    type: String,
+  },
+});
+
 const projectSchema = new mongoose.Schema(
   {
     projectName: { type: String, required: true },
@@ -37,6 +55,13 @@ const projectSchema = new mongoose.Schema(
     spotlight:{type:String},
     type:{type:String},
     Amenities: [String],
+    BhK_Details: [bhk_Schema],
+    highlight: [{
+    highlight_Point: {
+      type: String,
+      required: true
+    }
+  }],
     galleryImages: {
       type: [{
         url: {
