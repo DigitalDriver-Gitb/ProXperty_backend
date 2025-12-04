@@ -143,6 +143,49 @@ export const getProjectById = async (req, res) => {
   }
 }
 
+export const getProjectByCity = async(req,res) =>{
+  try{
+    console.log("City param:", req.params.city)
+    const { city } = req.params;
+    const projects = await Project.find({
+      city: { $regex: new RegExp(`^${city}$`, "i") }
+    });
+
+    res.status(200).json({ success: true, data: projects });
+    console.log("Projects found:", projects.length);
+    console.log("Projects:", JSON.stringify(projects, null, 2));
+  } catch (error) {
+    res.status(500).json({ message: "Server error", error: error.message });
+  }
+}
+
+export const getProjectByBuilder = async(req,res) =>{
+  try{
+    const { builderName } = req.params;
+    const projects = await Project.find({ builderName: { $regex: new RegExp(`^${builderName}$`, "i") } });
+    res.status(200).json({ success: true, data: projects });
+    console.log("Projects found:", projects.length);
+    console.log("Projects:", JSON.stringify(projects, null, 2));
+  } catch (error) {
+    res.status(500).json({ message: "Server error", error: error.message });
+  }
+}
+
+export const getProjectByUrl = async (req, res) => {
+  try{
+    const { project_url } = req.params;
+    console.log("Looking for project with URL:", project_url);
+    const project = await Project.findOne({ project_url});
+    console.log("Query result:", project);
+    console.log("Project URL from DB:", project?.project_url);
+    if (!project) return res.status(404).json({ message: "Project not found" });
+    res.status(200).json({ success: true, data: project });
+    console.log("Project found:", JSON.stringify(project, null, 2));
+  } catch (error) {
+    res.status(500).json({ message: "Server error", error: error.message });
+  }
+}
+
 // Update Project
 export const updateProject = async (req, res) => {
   try {

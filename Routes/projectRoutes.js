@@ -14,7 +14,10 @@ import {
   highlightPoint_view,
   highlightedit,
   highlightupdate,
-  highlightdelete
+  highlightdelete,
+  getProjectByUrl,
+  getProjectByCity,
+  getProjectByBuilder,
 } from "../Controller/Admin/Project/ProjectController.js";
 
 const router = express.Router();
@@ -24,15 +27,21 @@ router.get("/", getProjects);
 router.get("/:id", getProjectById);
 router.put("/:id", updateProject);
 router.delete("/:id", deleteProject);
+
 router.post("/bhk_insert/:id", bhk_insert);
 router.get("/bhk_view/:id", bhk_view);
 router.get("/bhk_edit/:id", bhk_edit);
 router.put("/bhk_update/:id", bhk_update);
 router.delete("/bhk_delete/:id", bhk_delete);
+
 router.post("/highlight/:id", highlightPoint);
 router.get("/highlight/view/:id", highlightPoint_view);
 router.get("/highlight/edit/:id", highlightedit);
 router.post("/highlight/update/:id", highlightupdate);
 router.delete("/highlight/delete/:id", highlightdelete);
+
+router.get("/project/:project_url", getProjectByUrl);
+router.get("/city/:city", getProjectByCity);
+router.get("/builder/:builderName", getProjectByBuilder);
 
 export default router;
