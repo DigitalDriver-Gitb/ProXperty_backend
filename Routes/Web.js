@@ -2,6 +2,7 @@ import express from "express";
 import authRouter from "../Controller/Admin/AdminAuthController.js";
 import userAuthRouter from "../Controller/User/UserAuthController.js";
 import projectRouter from "./projectRoutes.js";
+import userprojectRouter from "./UserRoutes/UserRoutes.js";
 import registeredAdminUsersRouter from "./RegisteredAdminUsersRoutes.js";
 import multer from "multer";
 import uploadImageToS3 from "../utilities/documents.js";
@@ -21,6 +22,7 @@ router.use("/admin_auth", authRouter);
 router.use("/user_auth", userAuthRouter)
 
 router.use("/admin/project", projectRouter) // to create the project or its operations
+router.use("/user/project", userprojectRouter) // to create the project or its operations
 // router.use("/admin/user", userRouter)
 // router.use("/admin/admin-users", adminUsersRouter)
 router.use("/admin/registered_admin_users", registeredAdminUsersRouter) // to get the admin registerd users
