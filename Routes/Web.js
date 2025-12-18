@@ -11,6 +11,8 @@ import builderRouter from "./BuilderRoutes.js";
 // import countryRouter from "./CountryRoutes.js";
 import typeRouter from "./TypeRoutes.js";
 import locationRoutes from "./LocationRoutes.js";
+import advertiseWithUsRouter from "./UserRoutes/AdvertiseWithUsRoutes.js";
+import sellRentRouter from "./UserRoutes/SellRentRoutes.js";
 // Add JSON body parser middleware
 // router.use(express.json());
 
@@ -19,20 +21,20 @@ const upload = multer({ dest: "uploads/" })
 
 router.use("/admin_auth", authRouter);
 
-router.use("/user_auth", userAuthRouter)
+router.use("/user_auth", userAuthRouter);
 
-router.use("/admin/project", projectRouter) // to create the project or its operations
-router.use("/user/project", userprojectRouter) // to create the project or its operations
-// router.use("/admin/user", userRouter)
-// router.use("/admin/admin-users", adminUsersRouter)
-router.use("/admin/registered_admin_users", registeredAdminUsersRouter) // to get the admin registerd users
-router.use("/admin/proxperty_users", proxpertyUsersRouter) // to get the proxperty registerd users
-router.use("/admin/builder", builderRouter) // to get the builder registerd users
-// router.use("/admin/country", countryRouter) // to get the country registerd users
-router.use("/admin/type", typeRouter) // to get the type registerd users    // Add new route for image upload
+router.use("/admin/project", projectRouter);
+router.use("/admin/registered_admin_users", registeredAdminUsersRouter);
+router.use("/admin/proxperty_users", proxpertyUsersRouter);
+router.use("/admin/builder", builderRouter);
+router.use("/admin/type", typeRouter);
 router.use("/admin/location", locationRoutes);
-router.post("/upload-image", upload.single('image'), uploadImageToS3);
 
+
+router.use("/user/project", userprojectRouter);
+router.use("/user/enquiry/advertise_with_us",advertiseWithUsRouter);
+router.use("/user/enquiry/sell_rent",sellRentRouter)
+router.post("/upload-image", upload.single('image'), uploadImageToS3);
 // Test endpoint
 router.get("/test-register", (req, res) => {
     res.json({
