@@ -13,7 +13,8 @@ import typeRouter from "./TypeRoutes.js";
 import locationRoutes from "./LocationRoutes.js";
 import advertiseWithUsRouter from "./UserRoutes/AdvertiseWithUsRoutes.js";
 import sellRentRouter from "./UserRoutes/SellRentRoutes.js";
-// Add JSON body parser middleware
+import projectEnquireRouter from "./UserRoutes/ProjectEnquire.js";
+    // Add JSON body parser middleware
 // router.use(express.json());
 
 const router = express.Router();
@@ -33,7 +34,8 @@ router.use("/admin/location", locationRoutes);
 
 router.use("/user/project", userprojectRouter);
 router.use("/user/enquiry/advertise_with_us",advertiseWithUsRouter);
-router.use("/user/enquiry/sell_rent",sellRentRouter)
+router.use("/user/enquiry/sell_rent",sellRentRouter);
+router.use("/user/enquiry/project",projectEnquireRouter);
 router.post("/upload-image", upload.single('image'), uploadImageToS3);
 // Test endpoint
 router.get("/test-register", (req, res) => {
