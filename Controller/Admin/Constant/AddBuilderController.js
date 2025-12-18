@@ -1,24 +1,4 @@
 import Builder from "../../../models/Admin/Constant/AddBuilder.js";
-
-// Create builder
-// export const createBuilder = async (req, res) => {
-//   try {
-//     const { name, description, builder_logo } = req.body;
-
-//     const newBuilder = new Builder({
-//       name,
-//       description,
-//       builder_logo, // store the image link (URL)
-//     });
-
-//     await newBuilder.save();
-//     res.status(201).json(newBuilder);
-//   } catch (error) {
-//     console.error(error);
-//     res.status(500).json({ message: "Error creating builder", error });
-//   }
-// };
-
 export const createBuilder = async (req, res) => {
   try {
     const { name, description, builder_logo, country, state, cities } = req.body;
