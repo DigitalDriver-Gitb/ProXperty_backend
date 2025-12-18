@@ -15,18 +15,18 @@ export const createSellandRentEnquiry = async(req,res) =>{
             createdAt: new Date(),
         });
         await enquiry.save();
-        res.status(200).json({ success: true, data: "Enquiry created successfully" });
+        res.status(200).json({ success: true, status: 200, message: "Enquiry created successfully", data: enquiry });
     }catch(error){
-        res.status(500).json({ message: "Server error", error: error.message });
+        res.status(500).json({ success: false, status: 500, message: "Server error", error: error.message });
     }
 }
 
-export const getSellandRentEnquiry = async(req,res) =>{
+export const getSellandRentEnquiry = async(_req,res) =>{
     try{
-        const enquiry = await SellandRentEnquiry.find();
-        res.status(200).json({ success: true, data: enquiry });
+        const enquiry = await SellandRentEnquiry.find().sort({ createdAt: -1 });
+        res.status(200).json({ success: true, status: 200, message: "Enquiries fetched successfully", data: enquiry });
     }catch(error){
-        res.status(500).json({ message: "Server error", error: error.message });
+        res.status(500).json({ success: false, status: 500, message: "Server error", error: error.message });
     }
 }
 
