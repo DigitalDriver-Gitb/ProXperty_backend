@@ -16,6 +16,23 @@ export const getProjectByCity = async(req,res) =>{
   }
 };
 
+export const getProjectBySublocation= async(req,res) =>{
+   try{
+    console.log("Sublocation param:", req.params.sublocation)
+    const { sublocation } = req.params;
+    const projects = await Project.find({
+      sublocation: { $regex: new RegExp(`^${sublocation}$`, "i") }
+    });
+
+    res.status(200).json({ success: true, data: projects });
+    console.log("Projects found:", projects.length);
+    console.log("Projects:", JSON.stringify(projects, null, 2));
+
+   }catch(error){
+    res.status(500).json({ message: "Server error", error: error.message });
+   }
+};
+
 export const getProjectBySpotlight = async(req,res) =>{
     try{
          const projects = await Project.find({spotlight: "True"});
