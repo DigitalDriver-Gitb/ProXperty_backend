@@ -1,40 +1,6 @@
-# name: Deploy ProXperty_backend
-# on: 
-#   push:
-#     branches:
-#       - main
-
-# jobs:
-#   build:
-#     runs-on: ubuntu-latest
-#     steps:
-#       - name: Checkout Source
-#         uses: actions/checkout@v4
-#       - name: Login to docker hub
-#         run: docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}     
-#       - name: Build Docker Image
-#         run: docker build -t proxperty/proxperty_backend  .
-#       - name: Publish Image to docker hub
-#         run: docker push proxperty/proxperty_backend:latest
- 
- 
-#   deploy:
-#     needs: build
-#     runs-on: self-hosted 
-#     steps:
-#       - name: Pull image from docker hub
-#         run: docker pull proxperty/proxperty_backend:latest
-#       - name: Delete old container
-#         run: docker rm -f proxperty_backend
-#       - name: Run Docker Container
-#         run: docker run -d -p 3500:3500 --name proxperty_backend -e MONGO_URI='${{ secrets.MONGO_URI }}' -e JWT_SECRET='${{ secrets.JWT_SECRET }}' proxperty/proxperty_backend
-
-
-
-
 name: Deploy ProXperty_backend
 
-on: 
+on:
   push:
     branches:
       - main
@@ -46,26 +12,36 @@ jobs:
       - name: Checkout Source
         uses: actions/checkout@v4
 
-      - name: Login to docker hub
-        run: sudo docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}     
+      - name: Login to Docker Hub
+        run: sudo docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
 
-      - name: Build Docker Image
-        run: sudo docker build -t proxperty/proxperty_backend .
+      - name: Build Production Docker Image
+        run: sudo docker build -f Dockerfile.prod -t proxperty/proxperty_backend:latest .
 
-      - name: Publish Image to docker hub
+      - name: Push Image to Docker Hub
         run: sudo docker push proxperty/proxperty_backend:latest
 
   deploy:
     needs: build
     runs-on: self-hosted
     steps:
-      - name: Pull image from docker hub
+      - name: Pull latest image
         run: sudo docker pull proxperty/proxperty_backend:latest
 
-      - name: Delete old container
+      - name: Stop & remove old container
         run: sudo docker rm -f proxperty_backend || true
 
-      - name: Run Docker Container
+      - name: Run new container
         run: |
-          sudo docker run -d -p 3500:3500 --name proxperty_backend -e MONGO_URI='${{ secrets.MONGO_URI }}' -e JWT_SECRET='${{ secrets.JWT_SECRET }}' -e AWS_ACCESS_KEY_ID='${{ secrets.AWS_ACCESS_KEY_ID }}' -e AWS_SECRET_ACCESS_KEY='${{ secrets.AWS_SECRET_ACCESS_KEY }}' -e AWS_REGION='${{ secrets.AWS_REGION }}' -e AWS_S3_BUCKET_NAME='${{ secrets.AWS_S3_BUCKET_NAME }}' proxperty/proxperty_backend
-
+          sudo docker run -d \
+            --name proxperty_backend \
+            -p 3500:3500 \
+            --restart unless-stopped \
+            -e NODE_ENV=production \
+            -e MONGO_URI='${{ secrets.MONGO_URI }}' \
+            -e JWT_SECRET='${{ secrets.JWT_SECRET }}' \
+            -e AWS_ACCESS_KEY_ID='${{ secrets.AWS_ACCESS_KEY_ID }}' \
+            -e AWS_SECRET_ACCESS_KEY='${{ secrets.AWS_SECRET_ACCESS_KEY }}' \
+            -e AWS_REGION='${{ secrets.AWS_REGION }}' \
+            -e AWS_S3_BUCKET_NAME='${{ secrets.AWS_S3_BUCKET_NAME }}' \
+            proxperty/proxperty_backend:latest
