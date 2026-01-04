@@ -12,6 +12,11 @@ const AmenitiesSchema = new mongoose.Schema(
       required: true,
       trim: true,
     },
+    Type:{
+      type:String,
+      required:true,
+      trim:true
+    }
   },
   { timestamps: true }
 );

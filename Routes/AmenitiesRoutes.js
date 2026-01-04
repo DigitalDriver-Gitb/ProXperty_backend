@@ -13,6 +13,6 @@ AmenitiesRouter.post("/", createAmenities);
 AmenitiesRouter.get("/", getAllAmenities);
 AmenitiesRouter.get("/:id", getAmenitiesById);
 AmenitiesRouter.put("/:id", updateAmenities);
-AmenitiesRouter.delete("/:id", deleteAmenities);
+AmenitiesRouter.post("/:id", deleteAmenities);
 
 export default AmenitiesRouter;

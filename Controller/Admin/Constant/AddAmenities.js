@@ -1,11 +1,12 @@
 import Amenities from "../../../models/Admin/Constant/AddAmenities.js";
 export const createAmenities = async (req, res) => {
   try {
-    const { name, icon } = req.body;
+    const { name, icon ,Type } = req.body;
 
     const amenities = new Amenities({
       name,
-      icon
+      icon,
+      Type
     });
 
     const savedAmenities = await amenities.save();
@@ -60,10 +61,11 @@ export const updateAmenities = async (req, res) => {
       return res.status(404).json({ message: "Amenities not found" });
     }
 
-    const { name, icon } = req.body;
+    const { name, icon,Type } = req.body;
 
     if (name) amenities.name = name;
     if (icon) amenities.icon = icon;
+    if (Type) amenities.Type = Type;
 
     const updatedAmenities = await amenities.save();
     res.json(updatedAmenities);
@@ -75,12 +77,22 @@ export const updateAmenities = async (req, res) => {
 // Delete amenities
 export const deleteAmenities = async (req, res) => {
   try {
-    const amenities = await Amenities.findByIdAndDelete(req.params.id);
-    if (!amenities) {
-      return res.status(404).json({ message: "Amenities not found" });
+    const { id } = req.params;
+    const deletedAmenity = await Amenities.findByIdAndDelete(id);
+    
+    if (!deletedAmenity) {
+      return res.status(404).json({ success: false, message: "Amenity not found" });
     }
-    res.json({ message: "Amenities deleted successfully", amenities });
+    
+    res.json({ 
+      success: true, 
+      message: "Amenity deleted successfully" 
+    });
   } catch (error) {
-    res.status(500).json({ message: "Error deleting amenities", error });
+    console.error('Error deleting amenity:', error);
+    res.status(500).json({ 
+      success: false, 
+      message: error.message || "Error deleting amenity" 
+    });
   }
 };
