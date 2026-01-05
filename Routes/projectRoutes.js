@@ -18,6 +18,11 @@ import {
   getProjectByUrl,
   getProjectByCity,
   getProjectByBuilder,
+  rera_insert,
+  rera_view,
+  rera_edit,
+  rera_update,
+  rera_delete,
 } from "../Controller/Admin/Project/ProjectController.js";
 
 const router = express.Router();
@@ -33,6 +38,13 @@ router.get("/bhk_view/:id", bhk_view);
 router.get("/bhk_edit/:id", bhk_edit);
 router.put("/bhk_update/:id", bhk_update);
 router.delete("/bhk_delete/:id", bhk_delete);
+
+router.post("/rera_insert/:id", rera_insert);
+router.get("/rera_view/:id", rera_view);
+router.get("/rera_edit/:id", rera_edit);
+router.put("/rera_update/:id", rera_update);
+router.post("/rera_delete/:id", rera_delete);
+
 
 router.post("/highlight/:id", highlightPoint);
 router.get("/highlight/view/:id", highlightPoint_view);

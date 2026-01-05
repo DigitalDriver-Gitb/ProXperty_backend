@@ -422,6 +422,202 @@ export const bhk_delete = async (req, res) => {
     }
 };
 
+export const rera_insert = async (req, res) => {
+    try {
+      // console.log("hello")
+      if (req.body) {
+        const id = req.params.id;
+        if (id) {
+          const { reraNo, qrImage } = req.body;
+          if (reraNo && qrImage) {
+            const data = {
+              reraNo: reraNo,
+              qrImage: qrImage,
+            };
+            const dataPushed = await Project.findOneAndUpdate(
+              { _id: id },
+              { $push: { reraDetails: data } },
+              { new: true },
+            );
+
+            await dataPushed.save();
+
+            return res.status(200).json({
+              status: 200,
+              message: "data pushed successfully !",
+              data: dataPushed
+            });
+          } else {
+            return res.status(403).json({
+              message: "check your input field ! ",
+            });
+          }
+        } else {
+          return res.status(403).json({
+            message: "check id !",
+          });
+        }
+      } else {
+        return res.status(403).json({
+          message: "check your field ! ",
+        });
+      }
+    } catch (error) {
+      console.log(error);
+      return res.status(500).json({
+        message: "Inetrnal server error !",
+      });
+    }
+};
+
+export const rera_view = async (req, res) => {
+    try {
+      //console.log("chcoSJ")
+      const id = req.params.id;
+      // console.log(id)
+      if (id) {
+        const data = await Project.findById({ _id: id });
+        // console.log(data)
+        if (data) {
+          return res.status(200).json({
+            message: "data get successfully",
+            data: data.reraDetails,
+          });
+        } else {
+          return res.status(200).json({
+            message: "data not found ",
+          });
+        }
+      } else {
+        return res.status(404).json({
+          message: "check url id ",
+        });
+      }
+    } catch (error) {
+      console.log(error);
+      return res.status(500).json({
+        message: "Internal server error !",
+      });
+    }
+  };
+
+//project bhk edit data get
+export const rera_edit = async (req, res) => {
+    try {
+      const id = req.params.id;
+      if (id) {
+        const data = await Project.findOne(
+          { "reraDetails._id": id },
+          {
+            reraDetails: {
+              $elemMatch: {
+                _id: id,
+              },
+            },
+          },
+        );
+
+        if (data) {
+          return res.status(200).json({
+            message: "data get successfully !",
+            data,
+          });
+        } else {
+          return res.status(200).json({
+            message: "data not found !",
+          });
+        }
+      } else {
+        return res.status(404).json({
+          message: "check your id !",
+        });
+      }
+    } catch (error) {
+      console.log(error);
+      return res.status(500).json({
+        message: "Internal server error ! ",
+      });
+    }
+  };
+
+//project rera update
+export const rera_update = async (req, res) => {
+    // console.log("hello")
+    try {
+      const { reraNo, qrImage } = req.body;
+      const id = req.params.id;
+      const update = {
+        reraNo: reraNo,
+        qrImage: qrImage,
+      };
+      if (update) {
+        const data = await Project.findOneAndUpdate(
+          { "reraDetails._id": id },
+          { $set: { "reraDetails.$": update } },
+          { new: true }
+        );
+        if (data) {
+          return res.status(200).json({
+            message: "data update successfully  !",
+          });
+        } else {
+          return res.status(200).json({
+            message: "data not found !",
+          });
+        }
+      } else {
+        return res.status(200).json({
+          message: "check field !",
+        });
+      }
+    } catch (error) {
+      console.log(error);
+      return res.status(500).json({
+        message: "Internal server error ! ",
+      });
+    }
+  };
+
+//project rera delete
+export const rera_delete = async (req, res) => {
+    try {
+        const projectId = req.params.id; // This is the project ID from the URL
+        const { reraId } = req.body; // This is the RERA ID from the request body
+
+        if (!mongoose.Types.ObjectId.isValid(projectId) || !mongoose.Types.ObjectId.isValid(reraId)) {
+            return res.status(400).json({ 
+                success: false,
+                message: "Invalid ID format" 
+            });
+        }
+
+        const result = await Project.updateOne(
+            { _id: projectId, "reraDetails._id": reraId },
+            { $pull: { reraDetails: { _id: reraId } } }
+        );
+
+        if (result.matchedCount === 0) {
+            return res.status(404).json({ 
+                success: false,
+                message: "Project or RERA entry not found" 
+            });
+        }
+
+        return res.status(200).json({
+            success: true,
+            message: "RERA entry deleted successfully"
+        });
+
+    } catch (error) {
+        console.error("Error in rera_delete:", error);
+        return res.status(500).json({
+            success: false,
+            message: "Internal server error",
+            error: error.message
+        });
+    }
+};
+
 export const highlightPoint = async (req, res) => {
     try {
       const id = req.params.id;

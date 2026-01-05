@@ -18,6 +18,15 @@ const highlight_Schema = new mongoose.Schema({
   },
 });
 
+const Rera_Schema = new mongoose.Schema({
+  reraNo: {
+    type: String,
+  },
+  qrImage: {
+    type: String,
+  },
+});
+
 const projectSchema = new mongoose.Schema(
   {
     projectName: { type: String, required: true },
@@ -47,6 +56,7 @@ const projectSchema = new mongoose.Schema(
     whatsappNumber:{type:Number,required:true},
     launchingDate:{type:Date,required:true},
     projectreraNo:{type:String},
+    reraDetails: [Rera_Schema],
     totalLandArea:{type:Number,required:true},
     totalUnit:{type:Number,required:true},
     towerNumber:{type:Number,required:true},
