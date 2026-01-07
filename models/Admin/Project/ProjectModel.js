@@ -65,6 +65,8 @@ const projectSchema = new mongoose.Schema(
     spotlight:{type:String},
     type:{type:String},
     Amenities: [String],
+    projectBgContent: { type: String},
+    builderlogo : { type: String,required:true },
     BhK_Details: [bhk_Schema],
     highlight: [{
     highlight_Point: {
