@@ -31,7 +31,7 @@ export const createProject = async (req, res) => {
               projectMaster_plan,
               project_Brochure,
               galleryImages,
-              floorPlanImages,
+              // floorPlanImages,
               maxPrice,
               minPrice,
               paymentPlan,
@@ -54,6 +54,7 @@ export const createProject = async (req, res) => {
               project_Education,
               project_Business,
               project_Entertainment,
+              projectConnectivity,
              } = req.body;
 
     if (!projectName || projectName.trim() === "") {
@@ -102,12 +103,13 @@ export const createProject = async (req, res) => {
       project_Education,
       project_Business,
       project_Entertainment,
+      projectConnectivity,
       galleryImages: Array.isArray(galleryImages)
   ? galleryImages.map(img => (typeof img === 'string' ? { url: img } : { url: img.url || '' }))
   : [],
-      floorPlanImages: Array.isArray(floorPlanImages) 
-  ? floorPlanImages.map(img => (typeof img === 'string' ? { url: img } : { url: img.url || '' }))
-  : [],
+  //     floorPlanImages: Array.isArray(floorPlanImages) 
+  // ? floorPlanImages.map(img => (typeof img === 'string' ? { url: img } : { url: img.url || '' }))
+  // : [],
     });
 
     await project.save();
@@ -234,12 +236,13 @@ export const bhk_insert = async (req, res) => {
       if (req.body) {
         const id = req.params.id;
         if (id) {
-          const { bhk_type, price, bhk_Area } = req.body;
-          if (bhk_type && price && bhk_Area) {
+          const { bhk_type, price, bhk_Area ,bhk_Image } = req.body;
+          if (bhk_type && price && bhk_Area && bhk_Image) {
             const data = {
               bhk_type: bhk_type,
               price: price,
               bhk_Area: bhk_Area,
+              bhk_Image: bhk_Image,
             };
             const dataPushed = await Project.findOneAndUpdate(
               { _id: id },
@@ -351,12 +354,13 @@ export const bhk_edit = async (req, res) => {
 export const bhk_update = async (req, res) => {
     // console.log("hello")
     try {
-      const { bhk_type, price, bhk_Area } = req.body;
+      const { bhk_type, price, bhk_Area  ,bhk_Image } = req.body;
       const id = req.params.id;
       const update = {
         bhk_type: bhk_type,
         price: price,
         bhk_Area: bhk_Area,
+        bhk_Image: bhk_Image,
       };
       if (update) {
         const data = await Project.findOneAndUpdate(
@@ -432,11 +436,10 @@ export const rera_insert = async (req, res) => {
       if (req.body) {
         const id = req.params.id;
         if (id) {
-          const { reraNo, qrImage } = req.body;
-          if (reraNo && qrImage) {
+          const { reraNo} = req.body;
+          if (reraNo) {
             const data = {
               reraNo: reraNo,
-              qrImage: qrImage,
             };
             const dataPushed = await Project.findOneAndUpdate(
               { _id: id },
@@ -548,11 +551,10 @@ export const rera_edit = async (req, res) => {
 export const rera_update = async (req, res) => {
     // console.log("hello")
     try {
-      const { reraNo, qrImage } = req.body;
+      const { reraNo} = req.body;
       const id = req.params.id;
       const update = {
         reraNo: reraNo,
-        qrImage: qrImage,
       };
       if (update) {
         const data = await Project.findOneAndUpdate(
@@ -789,6 +791,211 @@ export const highlightdelete = async (req, res) => {
       success: false,
       message: "Internal server error",
       error: error.message
+    });
+  }
+};
+
+export const connectivityPoint = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { connectivity, type, distance } = req.body;
+
+    if (!connectivity || !type || !distance) {
+      return res.status(400).json({
+        message: "All fields are required",
+      });
+    }
+
+    const data = {
+      connectivity,
+      type,
+      distance,
+    };
+
+    const updatedProject = await Project.findByIdAndUpdate(
+      id,
+      { $push: { ProjectConnectivity: data } },
+      { new: true }
+    );
+
+    if (!updatedProject) {
+      return res.status(404).json({
+        message: "Project not found",
+      });
+    }
+
+    return res.status(200).json({
+      message: "Connectivity added successfully",
+      data: updatedProject.ProjectConnectivity,
+    });
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({
+      message: "Internal server error",
+    });
+  }
+};
+
+export const connectivityPoint_view = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+      return res.status(400).json({
+        success: false,
+        message: "Invalid project ID format",
+      });
+    }
+
+    const project = await Project.findById(id)
+      .select("ProjectConnectivity");
+
+    if (!project) {
+      return res.status(404).json({
+        success: false,
+        message: "Project not found",
+      });
+    }
+
+    return res.status(200).json({
+      success: true,
+      message: "Connectivity data retrieved successfully",
+      data: project.ProjectConnectivity || [],
+    });
+
+  } catch (error) {
+    console.error("Error in connectivityPoint_view:", error);
+    return res.status(500).json({
+      success: false,
+      message: "Internal server error",
+    });
+  }
+};
+
+export const connectivityedit = async (req, res) => {
+  try {
+    const connectivityId = req.params.id;
+
+    if (!mongoose.Types.ObjectId.isValid(connectivityId)) {
+      return res.status(400).json({
+        success: false,
+        message: "Invalid connectivity ID",
+      });
+    }
+
+    const project = await Project.findOne(
+      { "ProjectConnectivity._id": connectivityId },
+      {
+        ProjectConnectivity: {
+          $elemMatch: { _id: connectivityId },
+        },
+      }
+    );
+
+    if (!project || project.ProjectConnectivity.length === 0) {
+      return res.status(404).json({
+        success: false,
+        message: "Connectivity point not found",
+      });
+    }
+
+    return res.status(200).json({
+      success: true,
+      message: "Connectivity data fetched successfully",
+      data: project.ProjectConnectivity[0],
+    });
+  } catch (error) {
+    console.error("Error in connectivityedit:", error);
+    return res.status(500).json({
+      success: false,
+      message: "Internal server error",
+    });
+  }
+};
+
+export const connectivityupdate = async (req, res) => {
+  try {
+    const connectivityId = req.params.id;
+    const { connectivity, type, distance } = req.body;
+
+    if (!mongoose.Types.ObjectId.isValid(connectivityId)) {
+      return res.status(400).json({
+        success: false,
+        message: "Invalid connectivity ID",
+      });
+    }
+
+    const project = await Project.findOneAndUpdate(
+      { "ProjectConnectivity._id": connectivityId },
+      {
+        $set: {
+          "ProjectConnectivity.$.connectivity": connectivity,
+          "ProjectConnectivity.$.type": type,
+          "ProjectConnectivity.$.distance": distance,
+        },
+      },
+      { new: true }
+    );
+
+    if (!project) {
+      return res.status(404).json({
+        success: false,
+        message: "Connectivity point not found",
+      });
+    }
+
+    return res.status(200).json({
+      success: true,
+      message: "Connectivity updated successfully",
+      data: project.ProjectConnectivity,
+    });
+  } catch (error) {
+    console.error("Error in connectivityupdate:", error);
+    return res.status(500).json({
+      success: false,
+      message: "Internal server error",
+    });
+  }
+};
+
+export const connectivitydelete = async (req, res) => {
+  try {
+    const connectivityId = req.params.id;
+
+    if (!mongoose.Types.ObjectId.isValid(connectivityId)) {
+      return res.status(400).json({
+        success: false,
+        message: "Invalid connectivity ID",
+      });
+    }
+
+    const project = await Project.findOneAndUpdate(
+      { "ProjectConnectivity._id": connectivityId },
+      {
+        $pull: {
+          ProjectConnectivity: { _id: connectivityId },
+        },
+      },
+      { new: true }
+    );
+
+    if (!project) {
+      return res.status(404).json({
+        success: false,
+        message: "Connectivity point not found or already deleted",
+      });
+    }
+
+    return res.status(200).json({
+      success: true,
+      message: "Connectivity deleted successfully",
+      data: project.ProjectConnectivity,
+    });
+  } catch (error) {
+    console.error("Error in connectivitydelete:", error);
+    return res.status(500).json({
+      success: false,
+      message: "Internal server error",
     });
   }
 };

@@ -15,6 +15,11 @@ import {
   highlightedit,
   highlightupdate,
   highlightdelete,
+  connectivityPoint,
+  connectivityPoint_view,
+  connectivityedit,
+  connectivityupdate,
+  connectivitydelete,
   getProjectByUrl,
   getProjectByCity,
   getProjectByBuilder,
@@ -51,6 +56,12 @@ router.get("/highlight/view/:id", highlightPoint_view);
 router.get("/highlight/edit/:id", highlightedit);
 router.post("/highlight/update/:id", highlightupdate);
 router.delete("/highlight/delete/:id", highlightdelete);
+
+router.post("/connectivity/:id", connectivityPoint);
+router.get("/connectivity/view/:id", connectivityPoint_view);
+router.get("/connectivity/edit/:id", connectivityedit);
+router.post("/connectivity/update/:id", connectivityupdate);
+router.delete("/connectivity/delete/:id", connectivitydelete);
 
 router.get("/project/:project_url", getProjectByUrl);
 router.get("/city/:city", getProjectByCity);

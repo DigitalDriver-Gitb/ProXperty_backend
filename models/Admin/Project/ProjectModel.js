@@ -10,6 +10,7 @@ const bhk_Schema = new mongoose.Schema({
   bhk_Area: {
     type: String,
   },
+  bhk_Image:{type:String},
 });
 
 const highlight_Schema = new mongoose.Schema({
@@ -18,13 +19,22 @@ const highlight_Schema = new mongoose.Schema({
   },
 });
 
+const projectConnectivitySchema = new mongoose.Schema({
+  connectivity: {
+    type: String,
+    required:true,
+  },
+  type:{type:String,required:true},
+  distance:{type:String,required:true}
+});
+
 const Rera_Schema = new mongoose.Schema({
   reraNo: {
     type: String,
   },
-  qrImage: {
-    type: String,
-  },
+  // qrImage: {
+  //   type: String,
+  // },
 });
 
 const projectSchema = new mongoose.Schema(
@@ -66,8 +76,9 @@ const projectSchema = new mongoose.Schema(
     type:{type:String},
     Amenities: [String],
     projectBgContent: { type: String},
-    builderlogo : { type: String,required:true },
+    builderlogo : { type: String},
     BhK_Details: [bhk_Schema],
+    ProjectConnectivity:[projectConnectivitySchema],
     highlight: [{
     highlight_Point: {
       type: String,
@@ -88,17 +99,17 @@ const projectSchema = new mongoose.Schema(
         message: 'At least 3 gallery images are required'
       }
     },
-    floorPlanImages: [{
-      url: {
-        type: String,
-        required: true
-      }
-    }],
+    // floorPlanImages: [{
+    //   url: {
+    //     type: String,
+    //     required: true
+    //   }
+    // }],
     
-    project_Connectivity: [String],
-    project_Education: [String],
-    project_Business: [String],
-    project_Entertainment: [String],
+    // project_Connectivity: [String],
+    // project_Education: [String],
+    // project_Business: [String],
+    // project_Entertainment: [String],
   },
   { timestamps: true }
 );
