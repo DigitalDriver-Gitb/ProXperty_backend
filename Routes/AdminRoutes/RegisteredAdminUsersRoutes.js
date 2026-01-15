@@ -1,7 +1,7 @@
 // routes/adminUsers.js
 import express from "express";
-import auth from "../middleware/auth.js";
-import { getRegisteredAdminUsers,deleteRegisteredAdminUser } from "../Controller/Admin/users/RegisteredAdminUsersController.js";
+// import auth from "../../middleware/auth.js";
+import { getRegisteredAdminUsers,deleteRegisteredAdminUser } from "../../Controller/Admin/users/RegisteredAdminUsersController.js";
 const router = express.Router();
 
 // Mount the controller routes

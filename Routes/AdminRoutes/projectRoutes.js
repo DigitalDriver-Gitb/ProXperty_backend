@@ -28,7 +28,7 @@ import {
   rera_edit,
   rera_update,
   rera_delete,
-} from "../Controller/Admin/Project/ProjectController.js";
+} from "../../Controller/Admin/Project/ProjectController.js";
 
 const router = express.Router();
 

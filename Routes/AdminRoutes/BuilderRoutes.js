@@ -5,7 +5,7 @@ import {
   getBuilder,
   updateBuilder,
   deleteBuilder,
-} from "../Controller/Admin/Constant/AddBuilderController.js";
+} from "../../Controller/Admin/Constant/AddBuilderController.js";
 
 const BuilderRouter = express.Router();
 

@@ -10,7 +10,7 @@ import {
   addLocation,
   getSublocations,
   addSublocation,
-} from "../Controller/Admin/Constant/locationController.js";
+} from "../../Controller/Admin/Constant/locationController.js";
 
 const router = express.Router();
 

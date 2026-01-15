@@ -5,7 +5,7 @@ import {
   getAmenitiesById,
   updateAmenities,
   deleteAmenities,
-} from "../Controller/Admin/Constant/AddAmenities.js";
+} from "../../Controller/Admin/Constant/AddAmenities.js";
 
 const AmenitiesRouter = express.Router();
 
