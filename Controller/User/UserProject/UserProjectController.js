@@ -1,5 +1,5 @@
 import Project from "../../../models/Admin/Project/ProjectModel.js";
-
+import Builder from "../../../models/Admin/Constant/AddBuilder.js";
 export const getProjectByCity = async(req,res) =>{
   try{
     console.log("City param:", req.params.city)
@@ -113,5 +113,40 @@ export const getProjectByType = async (req, res) => {
   } catch (error) {
     console.error(error);
     return res.status(500).json({ success: false, message: "Server error" });
+  }
+};
+
+export const getAllBuilders = async (req, res) => {
+  try {
+    const { q, city } = req.query;
+    const filter = {};
+    if (q) filter.name = { $regex: q, $options: "i" };
+    if (city) filter.cities = city;
+
+    const builders = await Builder.find(filter).sort({ createdAt: -1 });
+    res.status(200).json({ success: true, data: builders });
+  } catch (error) {
+    res.status(500).json({ success: false, message: "Error fetching builders", error });
+  }
+};
+
+export const getBuildersByCity = async (req, res) => {
+  try {
+    const { city } = req.params;
+
+    const builders = await Builder.find({
+      cities: { $regex: `^${city}$`, $options: "i" }
+    }).sort({ createdAt: -1 });
+
+    res.status(200).json({
+      success: true,
+      data: builders
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: "Error fetching builders by city",
+      error: error.message
+    });
   }
 };

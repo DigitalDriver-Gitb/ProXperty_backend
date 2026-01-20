@@ -8,8 +8,9 @@ import {
     getProjectBySpotlight,
     getSpotlightProjectByCities,
     getProjectByType,
-    getProjectBySublocation
-    
+    getProjectBySublocation,
+    getAllBuilders,
+    getBuildersByCity,
 } from "../../Controller/User/UserProject/UserProjectController.js";
 
 const router = express.Router();
@@ -22,6 +23,8 @@ router.get("/builder/:builderName", getProjectByBuilder);
 router.get("/spotlight", getProjectBySpotlight);
 router.get("/spotlight/:city", getSpotlightProjectByCities);
 router.get("/type/:city/:type", getProjectByType);
+router.get("/builders/:city", getBuildersByCity);
+router.get("/builders", getAllBuilders);
 
 
 export default router;
