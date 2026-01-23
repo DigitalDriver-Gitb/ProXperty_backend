@@ -1,5 +1,6 @@
 import Project from "../../../models/Admin/Project/ProjectModel.js";
 import Builder from "../../../models/Admin/Constant/AddBuilder.js";
+
 export const getProjectByCity = async(req,res) =>{
   try{
     console.log("City param:", req.params.city)
@@ -100,6 +101,29 @@ export const getSpotlightProjectByCities = async (req, res) => {
   }
 };
 
+export const getSpotlightProjectByBuilder = async (req, res) => {
+  try {
+    const { builderName } = req.params;
+
+    const projects = await Project.find({
+      builderName: { $regex: new RegExp(`^${builderName}$`, "i") },
+      spotlight: "True"
+    });
+
+    res.status(200).json({
+      success: true,
+      data: projects
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: "Server error",
+      error: error.message
+    });
+  }
+};
+
+
 export const getProjectByType = async (req, res) => {
   try {
     const { city, type } = req.params;
@@ -150,3 +174,24 @@ export const getBuildersByCity = async (req, res) => {
     });
   }
 };
+
+export const getProjectByBuilderName = async(req,res) =>{
+  try {
+    const { builderName } = req.params;
+
+    const projects = await Project.find({
+      builder: { $regex: `^${builderName}$`, $options: "i" }
+    });
+
+    res.status(200).json({
+      success: true,
+      data: projects
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: "Error fetching projects by builder name",
+      error: error.message
+    });
+  }
+}
