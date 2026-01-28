@@ -195,3 +195,14 @@ export const getProjectByBuilderName = async(req,res) =>{
     });
   }
 }
+
+export const getBuilderDetailsByName = async(req,res) =>{
+  try { 
+    const { builderName } = req.params;
+    const builder = await Builder.findOne({ name: { $regex: `^${builderName}$`, $options: "i" } });
+    return res.status(200).json({ success: true, data: builder });
+    
+  } catch (error) {
+    return res.status(500).json({ success: false, message: "Error fetching builder by name", error });
+  }
+}
