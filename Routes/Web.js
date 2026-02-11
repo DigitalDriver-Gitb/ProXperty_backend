@@ -16,6 +16,7 @@ import sellRentRouter from "./UserRoutes/SellRentRoutes.js";
 import projectEnquireRouter from "./UserRoutes/ProjectEnquire.js";
 import amenitiesRouter from "./AdminRoutes/AmenitiesRoutes.js";
 import aboutCityRouter from "./AdminRoutes/AddAboutCityRoutes.js";
+import blogRouter from "./AdminRoutes/BlogRoutes.js";
     // Add JSON body parser middleware
 // router.use(express.json());
 
@@ -34,7 +35,7 @@ router.use("/admin/type", typeRouter);
 router.use("/admin/location", locationRoutes);
 router.use("/admin/amenities", amenitiesRouter);
 router.use("/admin/about-city", aboutCityRouter);
-
+router.use("/admin/blog", blogRouter);
 
 router.use("/user/project", userprojectRouter);
 router.use("/user/enquiry/advertise_with_us",advertiseWithUsRouter);
