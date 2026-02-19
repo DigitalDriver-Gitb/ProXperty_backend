@@ -52,7 +52,7 @@ const projectSchema = new mongoose.Schema(
     meta_description: { type: String,required:true },
     project_url: { type: String },
     frontImage:{type:String,required:true},
-    logo:{type:String,required:true},
+    logo:{type:String},
     thumbnailImage:{type:String,required:true},
     project_locationImage:{type:String,required:true},
     highlightImage:{type:String,required:true},
