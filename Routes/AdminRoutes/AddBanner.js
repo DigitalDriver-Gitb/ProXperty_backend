@@ -4,9 +4,9 @@ import {
     getAllBannerImage
 } from "../../Controller/Admin/MainBanner/BannerController.js";
 
-const AmenitiesRouter = express.Router();
+const BannerRouter = express.Router();
 
-AmenitiesRouter.post("/", createBannerImage);
-AmenitiesRouter.get("/", getAllBannerImage);
+BannerRouter.post("/", createBannerImage);
+BannerRouter.get("/", getAllBannerImage);
 
-export default AmenitiesRouter;
+export default BannerRouter;
