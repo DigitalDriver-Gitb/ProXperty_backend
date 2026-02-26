@@ -2,7 +2,7 @@ import Blog from "../../../models/Admin/Blog/BlogModel.js";
 
 export const CreateBlog = async (req,res) =>{
     try {
-        const {title,image,type,content,author,city,tags,totalreadtime,subheading,category} = req.body;
+        const {title,image,type,content,author,city,tags,totalreadtime,subheading,category,placestags} = req.body;
         if(!title || !content || !author || !city || !tags || !totalreadtime || !subheading || !category || !image || !type){
             return res.status(400).json({
                 success:false,
@@ -21,6 +21,7 @@ export const CreateBlog = async (req,res) =>{
             totalreadtime,
             subheading,
             category,
+            placestags,
             createdAt: new Date(),
             updatedAt: new Date()
         });
