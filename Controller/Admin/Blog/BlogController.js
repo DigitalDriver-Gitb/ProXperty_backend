@@ -55,3 +55,50 @@ export const GetBlog = async (req,res) =>{
         })
     }
 }
+
+export const GetBlogByPlaceTags = async (req, res) => {
+    try {
+        const { placeTags } = req.params;
+
+        if (!placeTags) {
+            return res.status(400).json({
+                success: false,
+                message: "Place tag is required"
+            });
+        }
+
+        const blogs = await Blog.find({
+            placestags: { $in: [placeTags] }
+        });
+
+        return res.status(200).json({
+            success: true,
+            data: blogs
+        });
+
+    } catch (error) {
+        console.error("GetBlogByPlaceTags Error:", error);
+        return res.status(500).json({
+            success: false,
+            message: error.message
+        });
+    }
+};
+
+export const deleteBlogs = async (req,res) =>{
+    try {
+        const {id} = req.params;
+        const deletedBlog = await Blog.findByIdAndDelete(id);
+        return res.status(200).json({
+            success:true,
+            data:deletedBlog,
+            message:"Blog deleted successfully"
+        })
+    } catch (error) {
+        console.error("deleteBlogs Error:",error);
+        res.status(500).json({
+            success:false,
+            message:"Blog deleted failed"
+        })
+    }
+}
