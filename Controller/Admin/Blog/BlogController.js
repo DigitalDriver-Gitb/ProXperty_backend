@@ -2,11 +2,11 @@ import Blog from "../../../models/Admin/Blog/BlogModel.js";
 
 export const CreateBlog = async (req,res) =>{
     try {
-        const {title,image,type,content,author,city,tags,totalreadtime,subheading,category,placestags} = req.body;
-        if(!title || !content || !author || !city || !tags || !totalreadtime || !subheading || !category || !image || !type){
+        const {title,image,type,paragraph1,paragraph2,paragraph3,author,city,tags,totalreadtime,subheading,category,placestags} = req.body;
+        if(!title || !paragraph1 || !author || !city || !tags || !totalreadtime || !subheading || !category || !image || !type){
             return res.status(400).json({
                 success:false,
-                message:"Title, content, author, city, tags, totalreadtime, subheading, category, image and type are required"
+                message:"Title, paragraph1, author, city, tags, totalreadtime, subheading, category, image and type are required"
             })
         }
 
@@ -14,7 +14,9 @@ export const CreateBlog = async (req,res) =>{
             title,
             image,
             type,
-            content,
+            paragraph1,
+            paragraph2,
+            paragraph3,
             author,
             city,
             tags,
