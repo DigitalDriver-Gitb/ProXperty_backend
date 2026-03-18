@@ -13,6 +13,10 @@ const Project_Enquire = new mongoose.Schema({
     type: String,
     required: true,
   },
+  projectName:{
+    type : String,
+    // required:true
+  },
   createdAt: {
     type: Date,
     default: Date.now,

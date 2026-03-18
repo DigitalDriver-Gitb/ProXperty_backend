@@ -1,11 +1,12 @@
 import ProjectEnquire from "../../../models/Users/FormHandlermodel/ProjectEnquire.js";
 export const createProjectEnquiry = async(req,res) =>{
     try{
-        const {name,email,mobile} = req.body;
+        const {name,email,mobile,projectName} = req.body;
         const enquiry = new ProjectEnquire({
             name,
             email,
             mobile,
+            projectName,
             createdAt: new Date(),
         });
         await enquiry.save();
