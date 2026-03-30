@@ -28,11 +28,13 @@ import {
   rera_edit,
   rera_update,
   rera_delete,
+  checkProjectExists,
 } from "../../Controller/Admin/Project/ProjectController.js";
 
 const router = express.Router();
 
 router.post("/", createProject);
+router.post("/check",checkProjectExists)
 router.get("/", getProjects);
 router.get("/:id", getProjectById);
 router.put("/:id", updateProject);

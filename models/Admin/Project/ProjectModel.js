@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import slugify from "../../../utils/slugify.js";
 
 const bhk_Schema = new mongoose.Schema({
   bhk_type: {
@@ -11,6 +12,7 @@ const bhk_Schema = new mongoose.Schema({
     type: String,
   },
   bhk_Image:{type:String},
+  bhk_slug: { type: String, index: true }
 });
 
 const highlight_Schema = new mongoose.Schema({
@@ -54,6 +56,11 @@ const projectSchema = new mongoose.Schema(
     frontImage:{type:String,required:true},
     logo:{type:String},
     thumbnailImage:{type:String,required:true},
+    citySlug: { type: String, index: true },
+    projectSlug: { type: String, index: true },
+    locationSlug: { type: String, index: true },
+    typeSlug: { type: String, index: true },
+    sublocationSlug: { type: String, index: true },
     project_locationImage:{type:String,required:true},
     highlightImage:{type:String,required:true},
     projectMaster_plan:{type:String,required:true},
@@ -114,4 +121,30 @@ const projectSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
+projectSchema.index({ citySlug: 1 });
+projectSchema.index({ projectSlug: 1 });
+projectSchema.index({ "BhK_Details.bhk_slug": 1 });
+
+projectSchema.pre("save", function (next) {
+  // city slug
+  this.citySlug = slugify(this.city);
+
+  // project slug (optional but useful)
+  this.projectSlug = slugify(
+    `${this.projectName} ${this.location} ${this.city}`
+  );
+  this.locationSlug = slugify(this.location);
+  this.typeSlug = slugify(this.type);
+  this.sublocationSlug = slugify(this.sublocation);
+
+  // bhk slug
+  if (this.BhK_Details && this.BhK_Details.length > 0) {
+    this.BhK_Details = this.BhK_Details.map((b) => ({
+      ...b._doc,
+      bhk_slug: slugify(b.bhk_type),
+    }));
+  }
+
+  next();
+});
 export default mongoose.model("Project", projectSchema);

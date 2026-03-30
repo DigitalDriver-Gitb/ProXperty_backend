@@ -19,6 +19,8 @@ import aboutCityRouter from "./AdminRoutes/AddAboutCityRoutes.js";
 import blogRouter from "./AdminRoutes/BlogRoutes.js";
 import bannerRouter from "./AdminRoutes/AddBanner.js";
 import phoneBannerRouter from "./AdminRoutes/PhoneBanner.js";
+import seoRoutes from "./seoRoutes.js";
+
     // Add JSON body parser middleware
 // router.use(express.json());
 
@@ -63,9 +65,10 @@ router.get("/test-register", (req, res) => {
 
 router.post('/upload_image',upload.single("image"),uploadImageToS3)
 
-router.get("/", (req, res) => {
-    res.send("Hello World!");
-});
+// router.get("/", (req, res) => {
+//     res.send("Hello World!");
+// });
+router.use("/", seoRoutes);
 
 
 router.get("/about", (req, res) => {

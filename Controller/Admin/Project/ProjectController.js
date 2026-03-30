@@ -62,7 +62,9 @@ export const createProject = async (req, res) => {
     }
 
     const existingProject = await Project.findOne({
-      projectName: projectName.trim()
+      projectName: { 
+        $regex: new RegExp(`^${projectName.trim()}$`, "i") 
+      }
     });
 
     if (existingProject) {
@@ -139,6 +141,15 @@ res.status(201).json({
   }
 };
 
+export const checkProjectExists = async (req, res) => {
+  const { name } = req.query;
+
+  const project = await Project.findOne({
+    projectName: { $regex: new RegExp(`^${name}$`, "i") }
+  });
+
+  res.json({ exists: !!project });
+};
 // Get all projects
 export const getProjects = async (req, res) => {
   try {
