@@ -37,7 +37,7 @@ router.post("/", createProject);
 router.post("/check",checkProjectExists)
 router.get("/", getProjects);
 router.get("/:id", getProjectById);
-router.put("/:id", updateProject);
+router.post("/update/:id", updateProject);
 router.delete("/:id", deleteProject);
 
 router.post("/bhk_insert/:id", bhk_insert);
