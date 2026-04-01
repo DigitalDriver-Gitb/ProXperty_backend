@@ -215,28 +215,60 @@ export const getProjectByUrl = async (req, res) => {
 }
 
 // Update Project
+const parseArray = (field) => {
+  if (!field) return [];
+  try {
+    return typeof field === "string" ? JSON.parse(field) : field;
+  } catch {
+    return field.split(",");
+  }
+};
+
 export const updateProject = async (req, res) => {
   try {
     const data = req.body;
 
+    // Handle arrays - parse if they're strings
+    if (data.galleryImages && typeof data.galleryImages === 'string') {
+      try {
+        data.galleryImages = JSON.parse(data.galleryImages);
+      } catch (e) {
+        data.galleryImages = [];
+      }
+    }
+
+    if (data.floorPlanImages && typeof data.floorPlanImages === 'string') {
+      try {
+        data.floorPlanImages = JSON.parse(data.floorPlanImages);
+      } catch (e) {
+        data.floorPlanImages = [];
+      }
+    }
+
+    // Handle other array fields if needed
+    // data.project_Connectivity = parseArray(data.project_Connectivity);
+    // data.project_Education = parseArray(data.project_Education);
+    // data.project_Business = parseArray(data.project_Business);
+    // data.project_Entertainment = parseArray(data.project_Entertainment);
+    // data.Amenities = parseArray(data.Amenities);
+
     const updated = await Project.findByIdAndUpdate(
       req.params.id,
-      {
-        ...data,
-        project_Connectivity: data.project_Connectivity?.split(",") || [],
-        project_Education: data.project_Education?.split(",") || [],
-        project_Business: data.project_Business?.split(",") || [],
-        project_Entertainment: data.project_Entertainment?.split(",") || [],
-        Amenities: data.Amenities?.split(",") || [],
-        projectImages: data.projectImages ? data.projectImages.split(",") : []
-      },
+      data,
       { new: true }
     );
 
-    if (!updated) return res.status(404).json({ message: "Project not found" });
+    if (!updated) {
+      return res.status(404).json({ message: "Project not found" });
+    }
+
     res.status(200).json({ success: true, data: updated });
+
   } catch (error) {
-    res.status(500).json({ message: "Server error", error: error.message });
+    res.status(500).json({
+      message: "Server error",
+      error: error.message
+    });
   }
 };
 

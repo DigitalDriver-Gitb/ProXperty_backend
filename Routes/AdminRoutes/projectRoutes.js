@@ -1,4 +1,5 @@
 import express from "express";
+import multer from "multer";
 import {
   createProject,
   getProjects,
@@ -32,12 +33,13 @@ import {
 } from "../../Controller/Admin/Project/ProjectController.js";
 
 const router = express.Router();
+const upload = multer({ dest: "uploads/" });
 
 router.post("/", createProject);
 router.post("/check",checkProjectExists)
 router.get("/", getProjects);
 router.get("/:id", getProjectById);
-router.post("/update/:id", updateProject);
+router.put("/update/:id", updateProject);
 router.delete("/:id", deleteProject);
 
 router.post("/bhk_insert/:id", bhk_insert);
