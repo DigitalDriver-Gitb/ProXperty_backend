@@ -2,7 +2,7 @@ import mongoose from "mongoose";
 import slugify from "../utils/slugify.js";
 import Project from "../models/Admin/Project/ProjectModel.js";
 
-await mongoose.connect("mongodb+srv://digitaldriver001:lis7LXilcVDFPlcW@cluster0.vy6fzky.mongodb.net/proXperty?retryWrites=true&w=majority&appName=Cluster0");
+await mongoose.connect(process.env.MONGO_URI);
 
 console.log("DB connected");
 console.log("DB:", mongoose.connection.name);
