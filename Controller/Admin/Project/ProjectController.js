@@ -1053,3 +1053,43 @@ export const connectivitydelete = async (req, res) => {
     });
   }
 };
+
+export const globalSearch = async (req, res) => {
+  try {
+    const { q } = req.query;
+
+    if (!q) {
+      return res.status(400).json({ success: false, message: "Search query required" });
+    }
+
+    const keywords = q.split(" ").filter(Boolean);
+
+    const query = {
+      $and: keywords.map((word) => ({
+        $or: [
+          { projectName: new RegExp(word, "i") },
+          { city: new RegExp(word, "i") },
+          { location: new RegExp(word, "i") },
+          { sublocation: new RegExp(word, "i") },
+          { builderName: new RegExp(word, "i") },
+          { type: new RegExp(word, "i") },
+          { "BhK_Details.bhk_type": new RegExp(word, "i") }
+        ]
+      }))
+    };
+
+    const results = await Project.find(query).limit(10);
+
+    res.status(200).json({
+      success: true,
+      data: results
+    });
+
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: "Server error",
+      error: error.message
+    });
+  }
+};

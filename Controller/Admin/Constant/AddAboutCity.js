@@ -1,5 +1,5 @@
 import AboutCity from "../../../models/Admin/Constant/AddAboutCity.js";
-
+import City from "../../../models/Admin/Constant/City.js";
 export const CreateAboutCity = async (req, res) => {
   try {
     const {
@@ -141,3 +141,25 @@ export const GetAboutCityByName = async (req, res) => {
   }
 };
 
+// GET ALL CITIES
+export const getAllCities = async (req, res) => {
+  try {
+    const cities = await City.find().select("name").lean();
+
+    // ✅ normalize + remove duplicates
+    const uniqueCities = [
+      ...new Set(cities.map(c => c.name.toLowerCase()))
+    ];
+
+    res.status(200).json({
+      success: true,
+      data: uniqueCities
+    });
+
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: "Error fetching cities"
+    });
+  }
+};

@@ -29,12 +29,15 @@ import {
   rera_edit,
   rera_update,
   rera_delete,
+  globalSearch,
   checkProjectExists,
 } from "../../Controller/Admin/Project/ProjectController.js";
+import { getAllCities } from "../../Controller/Admin/Constant/AddAboutCity.js";
 
 const router = express.Router();
 const upload = multer({ dest: "uploads/" });
-
+router.get("/cities", getAllCities);
+router.get("/search", globalSearch);
 router.post("/", createProject);
 router.post("/check",checkProjectExists)
 router.get("/", getProjects);

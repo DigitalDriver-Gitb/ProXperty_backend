@@ -42,26 +42,13 @@ router.use("/admin/about-city", aboutCityRouter);
 router.use("/admin/blog", blogRouter);
 router.use("/admin/banner", bannerRouter);
 router.use("/admin/phone_banner", phoneBannerRouter);
+
+
 router.use("/user/project", userprojectRouter);
 router.use("/user/enquiry/advertise_with_us",advertiseWithUsRouter);
 router.use("/user/enquiry/sell_rent",sellRentRouter);
 router.use("/user/enquiry/project",projectEnquireRouter);
 router.post("/upload-image", upload.single('image'), uploadImageToS3);
-// Test endpoint
-router.get("/test-register", (req, res) => {
-    res.json({
-        message: "Test registration endpoint",
-        example_request: {
-            method: "POST",
-            url: "/register",
-            body: {
-                name: "Test User",
-                email: "test@example.com",
-                password: "test123"
-            }
-        }
-    });
-});
 
 router.post('/upload_image',upload.single("image"),uploadImageToS3)
 
