@@ -20,6 +20,7 @@ import blogRouter from "./AdminRoutes/BlogRoutes.js";
 import bannerRouter from "./AdminRoutes/AddBanner.js";
 import phoneBannerRouter from "./AdminRoutes/PhoneBanner.js";
 import seoRoutes from "./seoRoutes.js";
+import serviceEnquireRouter from "./UserRoutes/ServiceEnquireRoutes.js";
 
     // Add JSON body parser middleware
 // router.use(express.json());
@@ -48,6 +49,7 @@ router.use("/user/project", userprojectRouter);
 router.use("/user/enquiry/advertise_with_us",advertiseWithUsRouter);
 router.use("/user/enquiry/sell_rent",sellRentRouter);
 router.use("/user/enquiry/project",projectEnquireRouter);
+router.use("/user/enquiry/service",serviceEnquireRouter);
 router.post("/upload-image", upload.single('image'), uploadImageToS3);
 
 router.post('/upload_image',upload.single("image"),uploadImageToS3)

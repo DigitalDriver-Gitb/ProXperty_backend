@@ -2,12 +2,13 @@ import express from "express";
 import AdvertisewithusEnquiry from "../../../models/Users/FormHandlermodel/AdvertisewithusModel.js";
 export const createAdvertisewithUsEnquiry = async(req,res) =>{
     try{
-        const {name,email,phone,role} = req.body;
+        const {name,email,phone,role,status} = req.body;
         const enquiry = new AdvertisewithusEnquiry({
             name,
             email,
             phone,
             role,
+            status,
             createdAt: new Date(),
         });
         await enquiry.save();
