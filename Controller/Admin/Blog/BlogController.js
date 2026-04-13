@@ -104,3 +104,21 @@ export const deleteBlogs = async (req,res) =>{
         })
     }
 }
+
+export const getBlogsById = async(req,res) =>{
+    try {
+        const {id} = req.params;
+        console.log(id,"id");
+        const blog = await Blog.findById(id);
+        return res.status(200).json({
+            success:true,
+            data:blog
+        })
+    } catch (error) {
+        console.error("getBlogsById Error:",error);
+        return res.status(500).json({
+            success:false,
+            message:error.message
+        })
+    }
+}
