@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import { type } from "node:os";
 
 const Project_Enquire = new mongoose.Schema({
   name: {
@@ -16,6 +17,10 @@ const Project_Enquire = new mongoose.Schema({
   projectName:{
     type : String,
     // required:true
+  },
+  status:{
+    type:String,
+    required:true,
   },
   createdAt: {
     type: Date,
