@@ -14,6 +14,7 @@ const blogSchema = new mongoose.Schema({
     city: {type:String,required:true},
     tags: {type:[String],required:true},
     placestags: {type:[String]},
+    slug:{type:String, unique:true, index:true},
     category: {type:String,required:true},
     createdAt: Date,
     updatedAt: Date,        
