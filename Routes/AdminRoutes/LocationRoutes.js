@@ -10,6 +10,7 @@ import {
   addLocation,
   getSublocations,
   addSublocation,
+  getallcities,
 } from "../../Controller/Admin/Constant/locationController.js";
 
 const router = express.Router();
@@ -33,5 +34,8 @@ router.post("/locations", addLocation);
 // Sublocation
 router.get("/sublocations", getSublocations);
 router.post("/sublocations", addSublocation);
+
+
+router.get("/allcities", getallcities);
 
 export default router;

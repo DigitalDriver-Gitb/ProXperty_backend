@@ -129,4 +129,25 @@ export const addSublocation = async (req, res) => {
   }
 };
 
+export const getallcities = async (req, res) => {
+  try {
+    const cities = await City.find()
+      .populate({
+        path: "stateId",
+        populate: {
+          path: "countryId",
+        },
+      })
+      .sort({ createdAt: -1 });
+
+    res.status(200).json({
+      success: true,
+      count: cities.length,
+      data: cities,
+    });
+  } catch (error) {
+    console.error("Error fetching all cities:", error);
+    res.status(500).json({ error: error.message });
+  }
+};
 
