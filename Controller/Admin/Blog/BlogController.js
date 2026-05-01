@@ -221,3 +221,26 @@ export const migrateSlugs = async (req, res) => {
     });
   }
 };
+
+export const getBlogByCity = async (req, res) => {
+  try {
+    const { cityName } = req.params;
+
+    // Case-insensitive search for city name
+    const blogs = await Blog.find({ 
+      city: { $regex: new RegExp(`^${cityName}$`, 'i') }
+    });
+
+    return res.status(200).json({
+      success: true,
+      data: blogs
+    });
+
+  } catch (error) {
+    console.error("getBlogByCity Error:", error);
+    return res.status(500).json({
+      success: false,
+      message: error.message
+    });
+  }
+};

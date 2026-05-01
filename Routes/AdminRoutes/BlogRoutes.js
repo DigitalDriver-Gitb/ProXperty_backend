@@ -1,10 +1,11 @@
 import express from "express";
-import { CreateBlog, GetBlog, GetBlogByPlaceTags, deleteBlogs ,getBlogsById,getBlogBySlug,migrateSlugs} from "../../Controller/Admin/Blog/BlogController.js";
+import { CreateBlog, GetBlog, GetBlogByPlaceTags, deleteBlogs ,getBlogsById,getBlogBySlug,migrateSlugs,getBlogByCity} from "../../Controller/Admin/Blog/BlogController.js";
 // Blog
 
 const BlogRouter = express.Router();
 BlogRouter.get("/getblog", GetBlog);
-BlogRouter.get("/getblogbyid/:id",getBlogsById)
+BlogRouter.get("/getblogbyid/:id",getBlogsById);
+BlogRouter.get("/getblogbycity/:cityName",getBlogByCity);
 BlogRouter.get("/blog/:slug",getBlogBySlug);
 BlogRouter.post("/createblog", CreateBlog);
 BlogRouter.get("/getblog/:placeTags", GetBlogByPlaceTags);
