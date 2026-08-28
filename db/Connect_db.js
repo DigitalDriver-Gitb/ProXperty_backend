@@ -2,11 +2,11 @@ import mongoose from "mongoose";
 import dotenv from "dotenv";
 dotenv.config();
 
-const connectDb = async() => {
+const connectDb = async () => {
   return mongoose
     .connect(process.env.MONGO_URI)
     .then((connectionsDetails) => {
-      console.log("Database Connected");
+      console.log("Database Connected",process.env.MONGO_URI);
       console.log(
         "cluster name: ",
         connectionsDetails.connection.host,

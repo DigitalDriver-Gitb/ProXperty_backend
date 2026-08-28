@@ -70,6 +70,7 @@ const PORT = process.env.PORT || 3500;
 
 const server = app.listen(PORT, () => {
   console.log(`✅ Server running on port ${PORT}`);
+  console.log("mongo uri",process.env.MONGO_URI)
 });
 // Handle unhandled promise rejections
 process.on('unhandledRejection', (err) => {
